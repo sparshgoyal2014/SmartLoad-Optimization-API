@@ -24,10 +24,6 @@ public class LogisticsService {
         // optimizer method contains all the DSA logic
 
 
-        System.out.println("Api HIT SUCCESFUL");
-
-        System.out.println(loadInfo);
-
         HashMap map = Utility.getCompatibleOrders(loadInfo.getOrdersList());
 
         final List<Pair<
@@ -44,7 +40,6 @@ public class LogisticsService {
             for(Order order : (List<Order>)value){
                 System.out.println(order.getOrder_id());
             }
-
 
             revenueFromEachKind.add(new Pair<List<Order>, Pair<Integer, Integer>>((List<Order>)value, optimizeLoad(loadInfo.getTruck(), (List<Order>)value)));
 
@@ -84,9 +79,6 @@ public class LogisticsService {
             }
         }
 
-
-        printCompatibilityMatrix(compatible);
-
         int[] dp = new int[maxMask];
         long[] weight = new long[maxMask];
         long[] volume = new long[maxMask];
@@ -103,29 +95,9 @@ public class LogisticsService {
             int i = Integer.numberOfTrailingZeros(lsb);
             int prev = mask ^ lsb;
 
-            if(mask == 1){
-                System.out.print("Current mask is: ");
-                System.out.print(mask);
-                System.out.println();
-                System.out.print("Current lsb is: ");
-                System.out.print(lsb);
-                System.out.println();
-                System.out.print("Current noOftrailing zeros is: ");
-                System.out.print(i);
-
-
-                System.out.print("current prev is: ");
-                System.out.println(prev);
-
-
-                System.out.println("===============================");
-            }
-
-
-
             if (dp[prev] == -1) continue; // here prev is state
 
-            // Check time compatibility
+
             boolean ok = true;
             for (int j = 0; j < n; j++) {
                 if ((prev & (1 << j)) != 0 && !compatible[i][j] && !compatible[j][i]) {
@@ -142,7 +114,6 @@ public class LogisticsService {
                 continue;
             }
 
-
             dp[mask] = dp[prev] + inputOrders.get(i).getOrder_payout();
 
             if (dp[mask] > bestRevenue) {
@@ -153,16 +124,6 @@ public class LogisticsService {
 
 
         Pair<Integer, Integer> p = new Pair<Integer, Integer>(bestMask, bestRevenue);
-
-
-        System.out.println("Printing dp");
-
-        printDp(dp);
-
-        System.out.println("best mask: ");
-        System.out.println(bestMask);
-        System.out.println(bestRevenue);
-
 
         return p;
     }
@@ -224,9 +185,7 @@ public class LogisticsService {
         optimizedLoad.setUtilization_VOLUME_percent(((double)volumeTaken/totalVolumeOfAllOrders) * 100.0);
         optimizedLoad.setUtilization_weight_percent(((double)weightTaken/totalWeightOfAllOrders) * 100.0);
 
-
         return optimizedLoad;
-
 
     }
 
