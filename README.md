@@ -9,6 +9,7 @@ docker compose up --build
 
 # → Service will be available at http://localhost:8080
 
+```
 
 ## Sample request body
 
