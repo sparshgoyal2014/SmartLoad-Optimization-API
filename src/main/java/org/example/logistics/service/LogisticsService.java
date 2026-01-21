@@ -138,7 +138,6 @@ public class LogisticsService {
     }
 
     public List<Order> selectOrdersFromMask(List<Order> inputOrders, int mask){
-        // Reconstruct selected orders
         List<Order> result = new ArrayList<>();
         int n = inputOrders.size();
         for (int i = 0; i < n; i++) {
@@ -157,9 +156,6 @@ public class LogisticsService {
         List<Order> orderList = new ArrayList<>();
 
         orderList = selectOrdersFromMask(inputOrderList, bestRevenuePair.a);
-
-        int totalWeightOfAllOrders = allOrders.stream().mapToInt(order -> order.getWeight_lbs()).sum();
-        int totalVolumeOfAllOrders = allOrders.stream().mapToInt(order -> order.getVolume_cuft()).sum();
 
         int weightTaken = orderList.stream().mapToInt(order -> order.getWeight_lbs()).sum();
         int volumeTaken = orderList.stream().mapToInt(order -> order.getVolume_cuft()).sum();
