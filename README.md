@@ -55,7 +55,6 @@ docker compose up --build
             "delivery_date": "2025-12-08",
             "is_hazmat": true
         }
-        // ... up to 20 orders in real test
     ]
 }
 
