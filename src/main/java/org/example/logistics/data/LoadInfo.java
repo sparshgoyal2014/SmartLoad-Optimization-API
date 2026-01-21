@@ -1,6 +1,5 @@
 package org.example.logistics.data;
 
-import jakarta.persistence.Entity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,11 +17,11 @@ public class LoadInfo {
     @Valid
     @NotNull
     @NotEmpty
-    private List<Order> ordersList;
+    private List<Order> orders;
 
-    public LoadInfo(Truck truck, List<Order> ordersList) {
+    public LoadInfo(Truck truck, List<Order> orders) {
         this.truck = truck;
-        this.ordersList = ordersList;
+        this.orders = orders;
     }
 
     public Truck getTruck() {
@@ -33,12 +32,12 @@ public class LoadInfo {
         this.truck = truck;
     }
 
-    public List<Order> getOrdersList() {
-        return ordersList;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrdersList(List<Order> ordersList) {
-        this.ordersList = ordersList;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
 

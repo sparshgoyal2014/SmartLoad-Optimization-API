@@ -1,6 +1,5 @@
 package org.example.logistics.data;
 
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -11,45 +10,45 @@ public class Truck {
 
     @NotBlank(message = "truck_id cannot be blank")
     @NotNull(message = "truck_id cannot be null")
-    private String truck_id;
+    private String id;
 
 //    @Max(value = 100000, message = "value should be less than 100000")
     @Max(value = 100000)
     @Min(0)
-    private int maxWeight;
+    private int max_weight_lbs;
 
 
     @Max(100000)
     @Min(0)
-    private int maxVolume;
+    private int max_volume_cuft;
 
-    public Truck(String truck_id, int maxWeight, int maxVolume) {
-        this.truck_id = truck_id;
-        this.maxWeight = maxWeight;
-        this.maxVolume = maxVolume;
+    public Truck(String id, int max_weight_lbs, int max_volume_cuft) {
+        this.id = id;
+        this.max_weight_lbs = max_weight_lbs;
+        this.max_volume_cuft = max_volume_cuft;
     }
 
-    public String getTruck_id() {
-        return truck_id;
+    public String getId() {
+        return id;
     }
 
-    public void setTruck_id(String truck_id) {
-        this.truck_id = truck_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public int getMaxWeight() {
-        return maxWeight;
+    public int getMax_weight_lbs() {
+        return max_weight_lbs;
     }
 
-    public void setMaxWeight(int maxWeight) {
-        this.maxWeight = maxWeight;
+    public void setMax_weight_lbs(int max_weight_lbs) {
+        this.max_weight_lbs = max_weight_lbs;
     }
 
-    public int getMaxVolume() {
-        return maxVolume;
+    public int getMax_volume_cuft() {
+        return max_volume_cuft;
     }
 
-    public void setMaxVolume(int maxVolume) {
-        this.maxVolume = maxVolume;
+    public void setMax_volume_cuft(int max_volume_cuft) {
+        this.max_volume_cuft = max_volume_cuft;
     }
 }

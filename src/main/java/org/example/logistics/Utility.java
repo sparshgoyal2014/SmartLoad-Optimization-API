@@ -16,7 +16,7 @@ public class Utility {
         for(Order order: orders){
             String source = order.getOrigin();
             String destination = order.getDestination();
-            boolean isHazmat = order.isHazmat();
+            boolean isHazmat = order.isIs_hazmat();
 
             Triple<String, String, Boolean> key = new Triple(source, destination, isHazmat);
 

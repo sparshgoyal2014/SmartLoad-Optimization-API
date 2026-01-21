@@ -24,7 +24,7 @@ public class LogisticsService {
         // optimizer method contains all the DSA logic
 
 
-        HashMap map = Utility.getCompatibleOrders(loadInfo.getOrdersList());
+        HashMap map = Utility.getCompatibleOrders(loadInfo.getOrders());
 
         final List<Pair<
                 List<Order>,
@@ -38,7 +38,7 @@ public class LogisticsService {
             System.out.println("value is:");
 
             for(Order order : (List<Order>)value){
-                System.out.println(order.getOrder_id());
+                System.out.println(order.getId());
             }
 
             revenueFromEachKind.add(new Pair<List<Order>, Pair<Integer, Integer>>((List<Order>)value, optimizeLoad(loadInfo.getTruck(), (List<Order>)value)));
@@ -54,16 +54,16 @@ public class LogisticsService {
         }
 
 
-        return buildOptimizedLoad(bestRevenuePair.b, loadInfo.getTruck(), bestRevenuePair.a, loadInfo.getOrdersList());
+        return buildOptimizedLoad(bestRevenuePair.b, loadInfo.getTruck(), bestRevenuePair.a, loadInfo.getOrders());
 
     }
 
     boolean overlap(Order a, Order b){
-        return !a.getPickupDate().after(b.getPickupDate()) && !b.getDropDate().after(a.getDropDate());
+        return !a.getPickup_date().after(b.getPickup_date()) && !b.getDelivery_date().after(a.getDelivery_date());
     }
 
     boolean overlap2(Order a, Order b){
-        return a.getPickupDate().before(b.getDropDate()) && b.getPickupDate().before(a.getDropDate());
+        return a.getPickup_date().before(b.getDelivery_date()) && b.getPickup_date().before(a.getDelivery_date());
     }
 
 
@@ -107,14 +107,14 @@ public class LogisticsService {
             }
             if (!ok) continue;
 
-            weight[mask] = weight[prev] + inputOrders.get(i).getWeight();
-            volume[mask] = volume[prev] + inputOrders.get(i).getVolume();
+            weight[mask] = weight[prev] + inputOrders.get(i).getWeight_lbs();
+            volume[mask] = volume[prev] + inputOrders.get(i).getVolume_cuft();
 
-            if (weight[mask] > truck.getMaxWeight() || volume[mask] > truck.getMaxVolume()) {
+            if (weight[mask] > truck.getMax_weight_lbs() || volume[mask] > truck.getMax_volume_cuft()) {
                 continue;
             }
 
-            dp[mask] = dp[prev] + inputOrders.get(i).getOrder_payout();
+            dp[mask] = dp[prev] + inputOrders.get(i).getPayout_cents();
 
             if (dp[mask] > bestRevenue) {
                 bestRevenue = dp[mask];
@@ -171,17 +171,17 @@ public class LogisticsService {
 
         orderList = selectOrdersFromMask(inputOrderList, bestRevenuePair.a);
 
-        int totalWeightOfAllOrders = allOrders.stream().mapToInt(order -> order.getWeight()).sum();
-        int totalVolumeOfAllOrders = allOrders.stream().mapToInt(order -> order.getVolume()).sum();
+        int totalWeightOfAllOrders = allOrders.stream().mapToInt(order -> order.getWeight_lbs()).sum();
+        int totalVolumeOfAllOrders = allOrders.stream().mapToInt(order -> order.getVolume_cuft()).sum();
 
-        int weightTaken = orderList.stream().mapToInt(order -> order.getWeight()).sum();
-        int volumeTaken = orderList.stream().mapToInt(order -> order.getVolume()).sum();
+        int weightTaken = orderList.stream().mapToInt(order -> order.getWeight_lbs()).sum();
+        int volumeTaken = orderList.stream().mapToInt(order -> order.getVolume_cuft()).sum();
 
-        optimizedLoad.setTruck_id(truck.getTruck_id());
-        optimizedLoad.setOrder_ids(orderList.stream().map(Order::getOrder_id).toList());
-        optimizedLoad.setTotalPayout(bestRevenuePair.b);
-        optimizedLoad.setTotalVolume(volumeTaken);
-        optimizedLoad.setTotalWeight(weightTaken);
+        optimizedLoad.setTruck_id(truck.getId());
+        optimizedLoad.setSelected_order_ids(orderList.stream().map(Order::getId).toList());
+        optimizedLoad.setTotal_payout_cents(bestRevenuePair.b);
+        optimizedLoad.setTotal_volume_cuft(volumeTaken);
+        optimizedLoad.setTotal_weight_lbs(weightTaken);
         optimizedLoad.setUtilization_VOLUME_percent(((double)volumeTaken/totalVolumeOfAllOrders) * 100.0);
         optimizedLoad.setUtilization_weight_percent(((double)weightTaken/totalWeightOfAllOrders) * 100.0);
 
