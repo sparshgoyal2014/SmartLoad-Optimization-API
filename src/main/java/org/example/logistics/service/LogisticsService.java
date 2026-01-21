@@ -31,19 +31,7 @@ public class LogisticsService {
                 Pair<Integer, Integer>
                 >> revenueFromEachKind = new ArrayList<>();
 
-        map.forEach((key, value) -> {
-            System.out.println("key is: ");
-            System.out.println(key);
-            System.out.println("================");
-            System.out.println("value is:");
-
-            for(Order order : (List<Order>)value){
-                System.out.println(order.getId());
-            }
-
-            revenueFromEachKind.add(new Pair<List<Order>, Pair<Integer, Integer>>((List<Order>)value, optimizeLoad(loadInfo.getTruck(), (List<Order>)value)));
-
-        });
+        map.forEach((key, value) -> revenueFromEachKind.add(new Pair<List<Order>, Pair<Integer, Integer>>((List<Order>)value, optimizeLoad(loadInfo.getTruck(), (List<Order>)value))));
 
         Pair<List<Order>, Pair<Integer, Integer>> bestRevenuePair = new Pair<List<Order>, Pair<Integer, Integer>>(null, new Pair<>(0,0));
 
@@ -52,7 +40,6 @@ public class LogisticsService {
                 bestRevenuePair = revenueFromEachKind.get(i);
             }
         }
-
 
         return buildOptimizedLoad(bestRevenuePair.b, loadInfo.getTruck(), bestRevenuePair.a, loadInfo.getOrders());
 
@@ -182,8 +169,8 @@ public class LogisticsService {
         optimizedLoad.setTotal_payout_cents(bestRevenuePair.b);
         optimizedLoad.setTotal_volume_cuft(volumeTaken);
         optimizedLoad.setTotal_weight_lbs(weightTaken);
-        optimizedLoad.setUtilization_VOLUME_percent(((double)volumeTaken/totalVolumeOfAllOrders) * 100.0);
-        optimizedLoad.setUtilization_weight_percent(((double)weightTaken/totalWeightOfAllOrders) * 100.0);
+        optimizedLoad.setUtilization_VOLUME_percent(((double)volumeTaken/truck.getMax_volume_cuft()) * 100.0);
+        optimizedLoad.setUtilization_weight_percent(((double)weightTaken/truck.getMax_weight_lbs()) * 100.0);
 
         return optimizedLoad;
 
