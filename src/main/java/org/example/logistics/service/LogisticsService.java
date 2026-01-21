@@ -45,11 +45,7 @@ public class LogisticsService {
 
     }
 
-    boolean overlap(Order a, Order b){
-        return !a.getPickup_date().after(b.getPickup_date()) && !b.getDelivery_date().after(a.getDelivery_date());
-    }
-
-    boolean overlap2(Order a, Order b){
+    boolean isCompatible(Order a, Order b){
         return a.getPickup_date().before(b.getDelivery_date()) && b.getPickup_date().before(a.getDelivery_date());
     }
 
@@ -62,7 +58,7 @@ public class LogisticsService {
         boolean[][] compatible = new boolean[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                compatible[i][j] = overlap2(inputOrders.get(i), inputOrders.get(j));
+                compatible[i][j] = isCompatible(inputOrders.get(i), inputOrders.get(j));
             }
         }
 
@@ -113,28 +109,6 @@ public class LogisticsService {
         Pair<Integer, Integer> p = new Pair<Integer, Integer>(bestMask, bestRevenue);
 
         return p;
-    }
-
-
-    public void printDp(int[] dp){
-        int size = dp.length;
-
-        for(int i=0; i<size; i++){
-            System.out.print(i);
-            System.out.print(" ");
-        }
-        System.out.println();
-    }
-
-    public void printCompatibilityMatrix(boolean[][] comp){
-        int size = comp.length;
-        int rowSize = comp[0].length;
-
-        for(int i=0; i<size; i++){
-            for(int j=0; j<rowSize; j++){
-                System.out.println(i + " : " + j + " = " + comp[i][j]);
-            }
-        }
     }
 
     public List<Order> selectOrdersFromMask(List<Order> inputOrders, int mask){

@@ -19,8 +19,6 @@ public class LogisticsController {
     @RequestMapping(value = "/api/v1/load-optimizer/optimize", method = RequestMethod.POST)
     public OptimizedLoad optimizeTheLoad(@Valid @RequestBody LoadInfo loadInfo){
 
-
-
         return logisticsService.optimizeTheLoad(loadInfo);
     }
 }
