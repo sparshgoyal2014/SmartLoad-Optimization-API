@@ -13,6 +13,8 @@ docker compose up --build
 
 ## Sample request body
 
+```json
+
 {
     "truck": {
         "id": "truck-123",
@@ -58,7 +60,13 @@ docker compose up --build
 }
 
 
+```
+
+
 ## Sample response body
+
+
+```json
 
 {
     "truck_id": "truck-123",
@@ -72,3 +80,5 @@ docker compose up --build
     "utilization_weight_percent": 68.18181818181817,
     "utilization_VOLUME_percent": 70.0
 }
+
+```
